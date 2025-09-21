@@ -5,6 +5,9 @@ on:
     - cron: '0 12 * * *' # Runs every day at 12:00 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write  # allow pushing
+
 jobs:
   update-log:
     runs-on: ubuntu-latest
@@ -16,6 +19,13 @@ jobs:
         run: |
           git config user.name "${{ secrets.COMMIT_NAME }}"
           git config user.email "${{ secrets.COMMIT_EMAIL }}"
+
+      - name: Ensure log.txt exists
+        run: |
+          if [ ! -f log.txt ]; then
+            echo "Creating log.txt"
+            echo "==== Daily Log ====" > log.txt
+          fi
 
       - name: Update log.txt
         run: echo "$(date -u '+%Y-%m-%d'): Daily commit" >> log.txt
