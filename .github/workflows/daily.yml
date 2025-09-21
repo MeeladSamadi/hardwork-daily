@@ -28,7 +28,8 @@ jobs:
           fi
 
       - name: Update log.txt
-        run: echo "$(date -u '+%Y-%m-%d'): Daily commit" >> log.txt
+        run: |
+          echo "$(date -u '+%Y-%m-%d'): DailyCommit" >> log.txt
 
       - name: Commit and push changes
         run: |
